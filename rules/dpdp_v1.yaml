@@ -1,0 +1,250 @@
+# DPDP rule pack v1 — encodes a plain-language reading of the DPDP Act 2023
+# and DPDP Rules 2025 for engineering purposes. NOT LEGAL ADVICE.
+# Every rule below is status: draft — none have been cross-checked against
+# the bare Act/Rules text yet. Verify section_ref values before relying on
+# any of them, in this tool's own output or otherwise.
+rules:
+  # --- Consent (Ss. 6, 9) ---
+  - id: consent-01
+    category: consent
+    section_ref: "S. 6"
+    description: Verifiable consent must be captured before processing personal data, unless a narrow exemption applies (child-protection duties, subsidy delivery, email account creation).
+    check:
+      field: consent_captured
+      condition: "consent_captured == true, unless purpose is an exempted use"
+    severity: critical
+    remediation: Implement a consent capture flow before this system processes personal data.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: consent-02
+    category: consent
+    section_ref: "S. 9"
+    description: Processing children's or disabled persons' data requires verifiable parental/guardian consent, with narrow statutory exemptions.
+    check:
+      field: [is_child_or_disabled_data, parental_consent_captured]
+      condition: "if is_child_or_disabled_data == true, parental_consent_captured must == true"
+    severity: critical
+    remediation: Add a verifiable parental/guardian consent step for any system touching children's or disabled persons' data.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: consent-03
+    category: consent
+    section_ref: "S. 6"
+    description: Consent must be verifiable — a record of what was consented to should be retrievable, not just a boolean flag.
+    check:
+      field: consent_log_maintained
+      condition: "consent_log_maintained == true"
+    severity: high
+    remediation: Log consent artifacts (timestamp, notice version, scope) rather than storing only a yes/no flag.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: consent-04
+    category: consent
+    section_ref: "S. 6(4)"
+    description: A data principal must be able to withdraw consent as easily as it was given.
+    check:
+      field: consent_withdrawal_available
+      condition: "consent_withdrawal_available == true"
+    severity: medium
+    remediation: Provide a self-service consent withdrawal path with parity to the consent flow.
+    effective_from: "2025-11-13"
+    status: draft
+
+  # --- Notice (S. 5 + Rules Sch.) ---
+  - id: notice-01
+    category: notice
+    section_ref: "S. 5"
+    description: A clear, standalone notice must be given before or at the time consent is requested.
+    check:
+      field: notice_provided
+      condition: "notice_provided == true"
+    severity: critical
+    remediation: Serve a standalone notice prior to collecting consent for this system.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: notice-02
+    category: notice
+    section_ref: "S. 5 + Rules Sch."
+    description: The notice must itemize what data is collected and for what purpose, understandable on its own.
+    check:
+      field: notice_itemized
+      condition: "notice_itemized == true"
+    severity: high
+    remediation: Rewrite the notice to itemize data categories and purposes in plain language.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: notice-03
+    category: notice
+    section_ref: "Rules Sch."
+    description: The notice must include the DPO (or equivalent contact person)'s contact details.
+    check:
+      field: notice_has_dpo_contact
+      condition: "notice_has_dpo_contact == true"
+    severity: medium
+    remediation: Add DPO/contact-person details to the notice.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: notice-04
+    category: notice
+    section_ref: "Rules Sch."
+    description: The notice must carry a direct link to withdraw consent and a direct link to lodge a complaint.
+    check:
+      field: notice_has_grievance_link
+      condition: "notice_has_grievance_link == true"
+    severity: medium
+    remediation: Add direct consent-withdrawal and complaint links to the notice.
+    effective_from: "2025-11-13"
+    status: draft
+
+  # --- Data-principal rights (Ss. 11-13) ---
+  - id: rights-01
+    category: rights
+    section_ref: "S. 11"
+    description: Data principals must have a way to access their data held by the fiduciary.
+    check:
+      field: rights_access_enabled
+      condition: "rights_access_enabled == true"
+    severity: high
+    remediation: Build a self-service or request-based data access path for this system.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: rights-02
+    category: rights
+    section_ref: "Ss. 12-13"
+    description: Data principals must be able to request correction and erasure of their data.
+    check:
+      field: rights_correction_erasure_enabled
+      condition: "rights_correction_erasure_enabled == true"
+    severity: high
+    remediation: Build correction and erasure workflows for this system's data.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: rights-03
+    category: rights
+    section_ref: "S. 13"
+    description: A public grievance redressal mechanism (website/app) must be available.
+    check:
+      field: grievance_mechanism_published
+      condition: "grievance_mechanism_published == true"
+    severity: high
+    remediation: Publish a grievance redressal mechanism reachable from the product's website/app.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: rights-04
+    category: rights
+    section_ref: "S. 13"
+    description: Grievances must be resolved within 90 days.
+    check:
+      field: grievance_avg_resolution_days
+      condition: "grievance_avg_resolution_days <= 90"
+    severity: medium
+    remediation: Set an SLA and staffing to close grievances within 90 days.
+    effective_from: "2025-11-13"
+    status: draft
+
+  # --- Breach notification & security safeguards (S. 8(5)-(6) + Sch.) ---
+  - id: breach-01
+    category: breach
+    section_ref: "S. 8(5)"
+    description: Reasonable security safeguards (e.g. encryption at rest) are expected for sensitive personal data categories.
+    check:
+      field: [data_category, encryption_at_rest]
+      condition: "if data_category in {biometric_data, health_data, financial_data}, encryption_at_rest must == true"
+    severity: critical
+    remediation: Enable encryption at rest for systems holding biometric, health, or financial data.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: breach-02
+    category: breach
+    section_ref: "S. 8(6)"
+    description: A defined breach notification process must exist for this system.
+    check:
+      field: breach_notification_process_defined
+      condition: "breach_notification_process_defined == true"
+    severity: critical
+    remediation: Document and assign ownership of a breach notification runbook for this system.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: breach-03
+    category: breach
+    section_ref: "S. 8(6)"
+    description: The Data Protection Board and affected individuals must be notified "without delay" on breach.
+    check:
+      field: breach_notify_individuals_without_delay
+      condition: "breach_notify_individuals_without_delay == true"
+    severity: high
+    remediation: Add affected-individual notification to the breach runbook, triggered immediately on confirmation.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: breach-04
+    category: breach
+    section_ref: "S. 8(6) + Sch."
+    description: A detailed breach report must be filed within 72 hours, or an approved extension.
+    check:
+      field: breach_report_72h_filed
+      condition: "breach_report_72h_filed == true"
+    severity: high
+    remediation: Build a 72-hour detailed breach report template and filing checklist.
+    effective_from: "2025-11-13"
+    status: draft
+
+  # --- Significant Data Fiduciary obligations (S. 10) ---
+  - id: sdf-01
+    category: sdf
+    section_ref: "S. 10"
+    description: A Significant Data Fiduciary must appoint an India-based Data Protection Officer.
+    check:
+      field: [is_significant_data_fiduciary, dpo_appointed_india_based]
+      condition: "if is_significant_data_fiduciary == true, dpo_appointed_india_based must == true"
+    severity: critical
+    remediation: Appoint an India-based DPO for this data fiduciary.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: sdf-02
+    category: sdf
+    section_ref: "S. 10"
+    description: A Significant Data Fiduciary must appoint an independent data auditor.
+    check:
+      field: [is_significant_data_fiduciary, independent_auditor_appointed]
+      condition: "if is_significant_data_fiduciary == true, independent_auditor_appointed must == true"
+    severity: high
+    remediation: Engage an independent data auditor for periodic review.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: sdf-03
+    category: sdf
+    section_ref: "S. 10"
+    description: A Significant Data Fiduciary must conduct periodic Data Protection Impact Assessments.
+    check:
+      field: [is_significant_data_fiduciary, dpia_conducted]
+      condition: "if is_significant_data_fiduciary == true, dpia_conducted must == true"
+    severity: high
+    remediation: Schedule and conduct a periodic DPIA for this data fiduciary.
+    effective_from: "2025-11-13"
+    status: draft
+
+  - id: sdf-04
+    category: sdf
+    section_ref: "S. 10"
+    description: A Significant Data Fiduciary must regularly report significant findings to the Data Protection Board.
+    check:
+      field: [is_significant_data_fiduciary, sdf_reporting_to_board]
+      condition: "if is_significant_data_fiduciary == true, sdf_reporting_to_board must == true"
+    severity: medium
+    remediation: Set up a recurring reporting cadence of significant findings to the Board.
+    effective_from: "2025-11-13"
+    status: draft
