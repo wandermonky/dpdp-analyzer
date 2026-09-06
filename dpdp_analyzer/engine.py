@@ -132,6 +132,7 @@ class Finding:
     evidence: object
     severity: str
     section_ref: str
+    category: str
 
 
 def evaluate(rows: list[InventoryRow], rules: list[Rule]) -> list[Finding]:
@@ -147,6 +148,7 @@ def evaluate(rows: list[InventoryRow], rules: list[Rule]) -> list[Finding]:
                     evidence=evidence,
                     severity=rule.severity,
                     section_ref=rule.section_ref,
+                    category=rule.category,
                 )
             )
     return findings
