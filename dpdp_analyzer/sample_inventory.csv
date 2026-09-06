@@ -1,0 +1,13 @@
+system_name,data_category,purpose,consent_captured,retention_period_days,cross_border_transfer,encryption_at_rest
+CustomerCRM,contact_info,customer_support,true,365,false,true
+MarketingPlatform,email_address,promotional_email,true,730,true,true
+HRPayrollSystem,financial_data,salary_processing,true,2555,false,true
+KidsLearningApp,name_age,personalized_content,false,180,false,false
+SupportTicketing,contact_info,issue_resolution,true,365,false,false
+AnalyticsWarehouse,device_id,usage_analytics,false,1095,true,false
+LoyaltyProgram,purchase_history,rewards_calculation,true,1825,false,true
+VideoKYC,biometric_data,identity_verification,true,2190,false,true
+NewsletterSignup,email_address,newsletter_delivery,true,540,true,false
+JobApplicantPortal,resume_data,recruitment,true,365,false,false
+HealthBenefitsPortal,health_data,insurance_claims,true,1095,true,true
+DisabilitySupportApp,contact_info,accessibility_services,false,365,false,false
