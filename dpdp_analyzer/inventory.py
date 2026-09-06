@@ -58,7 +58,7 @@ def load_inventory(path: str | Path) -> tuple[list[InventoryRow], list[str]]:
     for offset, record in enumerate(df.to_dict(orient="records")):
         row_number = offset + 2  # +1 for header, +1 for 1-indexing
         try:
-            rows.append(InventoryRow(**record))
+            rows.append(InventoryRow(**{str(key): value for key, value in record.items()}))
         except ValidationError as exc:
             details = "; ".join(f"{'.'.join(map(str, e['loc']))}: {e['msg']}" for e in exc.errors())
             errors.append(f"Row {row_number}: {details}")

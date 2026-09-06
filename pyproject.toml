@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["pytest", "ruff", "mypy"]
+dev = ["pytest", "pytest-cov", "ruff", "mypy", "types-PyYAML", "pandas-stubs"]
 ui = ["streamlit"]
 
 [project.scripts]
@@ -25,3 +25,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["dpdp_analyzer*"]
+
+[[tool.mypy.overrides]]
+module = "weasyprint"
+ignore_missing_imports = true

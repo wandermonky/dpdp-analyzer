@@ -17,9 +17,9 @@ app = typer.Typer(add_completion=False, help="Score a data-processing inventory 
 
 @app.command()
 def check(
-    inventory_path: Path = typer.Argument(..., help="CSV/XLSX data-processing inventory to check."),
-    out: Path = typer.Option(Path("report.pdf"), "--out", help="Output PDF path. A matching .json is written alongside it."),
-    rules_path: Path = typer.Option(Path("rules/dpdp_v1.yaml"), "--rules", help="YAML rule pack to check against."),
+    inventory_path: Path = typer.Argument(..., help="CSV/XLSX data-processing inventory to check."),  # noqa: B008
+    out: Path = typer.Option(Path("report.pdf"), "--out", help="Output PDF path. A matching .json is written alongside it."),  # noqa: B008
+    rules_path: Path = typer.Option(Path("rules/dpdp_v1.yaml"), "--rules", help="YAML rule pack to check against."),  # noqa: B008
 ) -> None:
     """Validate an inventory, run it through the rule pack, and write a gap report."""
     if not rules_path.exists():

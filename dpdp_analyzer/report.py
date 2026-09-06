@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import asdict
-from datetime import date
+from datetime import UTC, datetime
 from pathlib import Path
 
 # ponytail: WeasyPrint needs Pango/GObject DLLs from MSYS2. Point it at the
@@ -11,8 +11,8 @@ from pathlib import Path
 # upgrade to reading it from a config file if the default path ever varies.
 os.environ.setdefault("WEASYPRINT_DLL_DIRECTORIES", r"C:\msys64\mingw64\bin")
 
-from jinja2 import Environment, FileSystemLoader  # noqa: E402
-from weasyprint import HTML  # noqa: E402
+from jinja2 import Environment, FileSystemLoader
+from weasyprint import HTML
 
 from dpdp_analyzer.rules import Rule
 from dpdp_analyzer.scoring import ScoreResult
@@ -41,7 +41,7 @@ def _build_context(score_result: ScoreResult, rules: list[Rule]) -> dict:
     ]
     return {
         "title": "DPDP Gap Analysis Report",
-        "generated_on": date.today().isoformat(),
+        "generated_on": datetime.now(tz=UTC).date().isoformat(),
         "overall_score": score_result.overall_score,
         "categories": [asdict(c) for c in score_result.categories],
         "remediation": remediation,

@@ -2,7 +2,12 @@ from pathlib import Path
 
 from dpdp_analyzer.engine import evaluate
 from dpdp_analyzer.inventory import load_inventory
-from dpdp_analyzer.report import DISCLAIMER, render_html, render_report, render_report_json
+from dpdp_analyzer.report import (
+    DISCLAIMER,
+    render_html,
+    render_report,
+    render_report_json,
+)
 from dpdp_analyzer.rules import load_rules
 from dpdp_analyzer.scoring import score
 

@@ -1,8 +1,8 @@
 """Rule-evaluation engine: runs every rule's check against every row."""
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Callable
 
 from dpdp_analyzer.inventory import InventoryRow
 from dpdp_analyzer.rules import Rule
