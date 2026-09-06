@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import os
-from dataclasses import asdict
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -25,6 +24,14 @@ DISCLAIMER = (
 TEMPLATE_DIR = Path(__file__).parent.parent / "reports" / "templates"
 
 
+def _score_class(value: float) -> str:
+    if value >= 80:
+        return "good"
+    if value >= 50:
+        return "warn"
+    return "bad"
+
+
 def _build_context(score_result: ScoreResult, rules: list[Rule]) -> dict:
     rules_by_id = {rule.id: rule for rule in rules}
     remediation = [
@@ -39,11 +46,22 @@ def _build_context(score_result: ScoreResult, rules: list[Rule]) -> dict:
         }
         for item in score_result.remediation
     ]
+    categories = [
+        {
+            "category": c.category,
+            "total": c.total,
+            "failed": c.failed,
+            "score": c.score,
+            "score_class": _score_class(c.score),
+        }
+        for c in score_result.categories
+    ]
     return {
         "title": "DPDP Gap Analysis Report",
         "generated_on": datetime.now(tz=UTC).date().isoformat(),
         "overall_score": score_result.overall_score,
-        "categories": [asdict(c) for c in score_result.categories],
+        "score_class": _score_class(score_result.overall_score),
+        "categories": categories,
         "remediation": remediation,
         "disclaimer": DISCLAIMER,
     }

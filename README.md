@@ -1,5 +1,12 @@
 # DPDP Gap-Analyzer & Report Generator
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)
+![Tests](https://img.shields.io/badge/tests-61%20passing-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/coverage-98%25-brightgreen.svg)
+![ruff](https://img.shields.io/badge/lint-ruff-blue.svg)
+![mypy](https://img.shields.io/badge/types-mypy-blue.svg)
+
 A tool that takes a data-processing inventory (a spreadsheet describing what
 personal data your systems collect and how it's handled) and scores it against
 the Digital Personal Data Protection Act 2023 and the DPDP Rules 2025. It
@@ -12,6 +19,8 @@ report with a remediation checklist ranked by severity.
 > the bare Act/Rules text by a qualified professional. Verify every finding
 > against the current DPDP Act and Rules before acting on it. This is a
 > portfolio/educational project, not certified compliance software.
+
+![Streamlit UI showing a readiness score, category breakdown chart, and remediation checklist](docs/streamlit_ui.jpg)
 
 ## What it does
 
@@ -76,8 +85,15 @@ pip install -e ".[ui]"
 streamlit run streamlit_app.py
 ```
 
-Upload a CSV, see the score and remediation table, download the PDF — same
-pipeline, no separate logic.
+Upload a CSV and get an interactive view of the same pipeline — no separate
+logic, just a friendlier surface on top of it: a score with a progress bar, a
+per-category bar chart, and a remediation checklist color-coded by severity
+(critical → red, high → orange, medium → amber), each row with the actual
+issue and remediation text pulled straight from the rule pack. The sidebar
+has a one-click download for the bundled sample inventory. Finish with
+"Download PDF report" to get the same client-facing report the CLI produces.
+
+![Remediation checklist color-coded by severity](docs/remediation_checklist.jpg)
 
 ## Rule pack coverage
 
@@ -119,6 +135,7 @@ reports/templates/  Jinja2 HTML report template
 tests/              pytest, covering every rule (pass + fail case) and
                     the loader/engine/scoring/report/CLI pipeline
 streamlit_app.py    optional web UI
+docs/               README screenshots
 ```
 
 ## Limitations

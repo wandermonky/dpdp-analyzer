@@ -6,15 +6,26 @@
 <style>
   @page { size: A4; margin: 2cm; }
   body { font-family: Arial, sans-serif; color: #1a1a1a; font-size: 11pt; }
-  h1 { font-size: 20pt; margin-bottom: 0; }
+  h1 { font-size: 22pt; margin-bottom: 0; color: #14213d; }
+  h2 { font-size: 14pt; color: #14213d; margin-top: 28px; }
   .meta { color: #666; margin-top: 4px; }
-  .score-box { margin: 24px 0; padding: 16px; border: 2px solid #333; text-align: center; }
-  .score-box .value { font-size: 36pt; font-weight: bold; }
+  .score-box { margin: 24px 0; padding: 18px; border-radius: 8px; border: 2px solid #333; border-left: 10px solid #333; text-align: center; }
+  .score-box .value { font-size: 40pt; font-weight: bold; }
+  .score-good { border-color: #1e7d34; }
+  .score-good .value { color: #1e7d34; }
+  .score-warn { border-color: #cca300; }
+  .score-warn .value { color: #a67c00; }
+  .score-bad { border-color: #b30000; }
+  .score-bad .value { color: #b30000; }
   table { width: 100%; border-collapse: collapse; margin: 12px 0 24px; }
-  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; font-size: 10pt; }
-  th { background: #f0f0f0; }
-  .bar-track { background: #eee; width: 100%; height: 10px; }
-  .bar-fill { background: #333; height: 10px; }
+  th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; font-size: 10pt; }
+  th { background: #14213d; color: #fff; }
+  tr:nth-child(even) { background: #f7f7f9; }
+  .bar-track { background: #eee; width: 100%; height: 10px; border-radius: 4px; overflow: hidden; }
+  .bar-fill { height: 10px; }
+  .bar-good { background: #1e7d34; }
+  .bar-warn { background: #cca300; }
+  .bar-bad { background: #b30000; }
   .badge { display: inline-block; padding: 2px 8px; border-radius: 3px; color: #fff; font-size: 9pt; font-weight: bold; }
   .badge-critical { background: #b30000; }
   .badge-high { background: #e07b00; }
@@ -28,7 +39,7 @@
 <h1>{{ title }}</h1>
 <div class="meta">Generated on {{ generated_on }}</div>
 
-<div class="score-box">
+<div class="score-box score-{{ score_class }}">
   <div class="value">{{ overall_score }}</div>
   <div>Readiness score (0-100)</div>
 </div>
@@ -42,7 +53,7 @@
     <td>{{ cat.total }}</td>
     <td>{{ cat.failed }}</td>
     <td>{{ cat.score }}</td>
-    <td><div class="bar-track"><div class="bar-fill" style="width: {{ cat.score }}%;"></div></div></td>
+    <td><div class="bar-track"><div class="bar-fill bar-{{ cat.score_class }}" style="width: {{ cat.score }}%;"></div></div></td>
   </tr>
   {% endfor %}
 </table>
