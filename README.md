@@ -75,6 +75,13 @@ Top remediation items:
 Report written to reports\demo.pdf and reports\demo.json
 ```
 
+### Building your own inventory
+
+Copy [`dpdp_analyzer/inventory_template.csv`](dpdp_analyzer/inventory_template.csv)
+(header + one filled-in example row) and add a row per system. See
+[`docs/inventory_field_guide.md`](docs/inventory_field_guide.md) for what
+every column means and which rule it feeds.
+
 This writes `reports/demo.pdf` (the client-facing report) and
 `reports/demo.json` (the same data, machine-readable).
 
